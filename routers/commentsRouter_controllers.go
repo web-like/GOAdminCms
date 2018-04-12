@@ -65,13 +65,37 @@ func init() {
 
 	beego.GlobalControllerRouter["CMS/controllers:RoleController"] = append(beego.GlobalControllerRouter["CMS/controllers:RoleController"],
 		beego.ControllerComments{
+			Method: "Delete",
+			Router: `/:id`,
+			AllowHTTPMethods: []string{"delete"},
+			MethodParams: param.Make(),
+			Params: nil})
+
+	beego.GlobalControllerRouter["CMS/controllers:UserController"] = append(beego.GlobalControllerRouter["CMS/controllers:UserController"],
+		beego.ControllerComments{
+			Method: "Post",
+			Router: `/`,
+			AllowHTTPMethods: []string{"post"},
+			MethodParams: param.Make(),
+			Params: nil})
+
+	beego.GlobalControllerRouter["CMS/controllers:UserController"] = append(beego.GlobalControllerRouter["CMS/controllers:UserController"],
+		beego.ControllerComments{
+			Method: "GetAll",
+			Router: `/`,
+			AllowHTTPMethods: []string{"get"},
+			MethodParams: param.Make(),
+			Params: nil})
+
+	beego.GlobalControllerRouter["CMS/controllers:UserController"] = append(beego.GlobalControllerRouter["CMS/controllers:UserController"],
+		beego.ControllerComments{
 			Method: "GetOne",
 			Router: `/:id`,
 			AllowHTTPMethods: []string{"get"},
 			MethodParams: param.Make(),
 			Params: nil})
 
-	beego.GlobalControllerRouter["CMS/controllers:RoleController"] = append(beego.GlobalControllerRouter["CMS/controllers:RoleController"],
+	beego.GlobalControllerRouter["CMS/controllers:UserController"] = append(beego.GlobalControllerRouter["CMS/controllers:UserController"],
 		beego.ControllerComments{
 			Method: "Put",
 			Router: `/:id`,
@@ -79,7 +103,7 @@ func init() {
 			MethodParams: param.Make(),
 			Params: nil})
 
-	beego.GlobalControllerRouter["CMS/controllers:RoleController"] = append(beego.GlobalControllerRouter["CMS/controllers:RoleController"],
+	beego.GlobalControllerRouter["CMS/controllers:UserController"] = append(beego.GlobalControllerRouter["CMS/controllers:UserController"],
 		beego.ControllerComments{
 			Method: "Delete",
 			Router: `/:id`,

@@ -25,11 +25,11 @@ func init() {
 				&controllers.RoleController{},
 			),
 		),
-		//beego.NSNamespace("/user",
-		//	beego.NSInclude(
-		//		&controllers.UserController{},
-		//	),
-		//),
+		beego.NSNamespace("/user",
+			beego.NSInclude(
+				&controllers.UserController{},
+			),
+		),
 	)
 	beego.AddNamespace(ns)
 }

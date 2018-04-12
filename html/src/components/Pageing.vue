@@ -6,8 +6,8 @@
           <span aria-hidden="true">首页</span>
         </a>
       </li>
-      <li v-for="v in indexs" :key="v">
-        <a href="javascript:void(0);" @click="getPageData(v)">{{ v }}</a>
+      <li v-for="(k, v) in indexs" :key="v">
+        <a href="javascript:void(0);" @click="getPageData(k)">{{ k }}</a>
       </li>
       <li v-bind:class="{disabled: current===count}">
         <a href="javascript:void(0);" aria-label="Next" v-on:click="getPageData(count)">
@@ -68,11 +68,10 @@ export default {
       if (end !== this.count - 1) {
         this.indexs.push('...')
       }
-      this.indexs.push(this.count)
+      if (this.count !== 1) {
+        this.indexs.push(this.count)
+      }
     }
   }
 }
 </script>
-
-<style lang="css">
-</style>

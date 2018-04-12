@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"github.com/astaxie/beego"
 	"strconv"
-	"fmt"
 )
 
 // RoleController operations for Role
@@ -16,7 +15,6 @@ type RoleController struct {
 // URLMapping ...
 func (c *RoleController) URLMapping() {
 	c.Mapping("Post", c.Post)
-	c.Mapping("GetOne", c.GetOne)
 	c.Mapping("GetAll", c.GetAll)
 	c.Mapping("Put", c.Put)
 	c.Mapping("Delete", c.Delete)
@@ -60,16 +58,6 @@ func (c *RoleController) Post() {
 	c.ServeJSON()
 }
 
-// GetOne ...
-// @Title GetOne
-// @Description get Role by id
-// @Param	id		path 	string	true		"The key for staticblock"
-// @Success 200 {object} models.Role
-// @Failure 403 :id is empty
-// @router /:id [get]
-func (c *RoleController) GetOne() {
-
-}
 
 // GetAll ...
 // @Title GetAll
@@ -92,26 +80,20 @@ func (c *RoleController) GetAll() {
 	if err != nil {
 		offset = 0
 	}
-	fmt.Println(limit)
-	roles, count, err := models.GetAllRoles(nil,nil,[]string{"id"},[]string{"desc"},offset, limit)
+
+	title := c.GetString("Title")
+	query := make(map[string]string,1)
+	if len(title) != 0 {
+		query = map[string]string{"Title": title}
+	}
+
+	roles, count, err := models.GetAllRoles(query,nil,[]string{"id"},[]string{"desc"},offset, limit)
 	if err == nil {
 		c.Data["json"] = map[string]interface{}{"data":roles, "count": count}
 	} else {
 		c.Data["json"] = map[string]error{"err":err}
 	}
 	c.ServeJSON()
-}
-
-// Put ...
-// @Title Put
-// @Description update the Role
-// @Param	id		path 	string	true		"The id you want to update"
-// @Param	body		body 	models.Role	true		"body for Role content"
-// @Success 200 {object} models.Role
-// @Failure 403 :id is not int
-// @router /:id [put]
-func (c *RoleController) Put() {
-
 }
 
 // Delete ...

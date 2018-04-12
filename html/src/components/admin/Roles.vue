@@ -11,9 +11,9 @@
             </div>
             <div class="col-lg-3">
               <div class="input-group">
-                <input type="text" class="form-control" placeholder="请输入用户组...">
+                <input type="text" class="form-control" placeholder="请输入用户组..." v-model="searchData.Title">
                 <span class="input-group-btn">
-                  <button class="btn btn-primary" type="button">检索</button>
+                  <button class="btn btn-primary" type="button" @click="lists(1)">检索</button>
                 </span>
               </div><!-- /input-group -->
             </div>
@@ -105,7 +105,9 @@ export default {
     return {
       httpUrl: 'role',
       items: '',
+      // 弹出框标题
       modalTitle: '',
+      // 添加编辑数据源
       post_data: {
         Title: '',
         Id: 0
@@ -114,9 +116,13 @@ export default {
       del_msg: '', // 删除提示信息
       page: { // 分页信息
         current: 1,
-        limit: 5,
+        limit: 14,
         offset: 0,
         total: 0
+      },
+      // 检索
+      searchData: {
+        Title: ''
       }
     }
   },
@@ -125,9 +131,13 @@ export default {
   },
   methods: {
     lists (page) { // 列表
+      if (page === undefined) {
+        page = 1
+      }
       this.page.current = page
       this.page.offset = (this.page.current - 1) * this.page.limit
       let httpQuery = {'offset': this.page.offset, 'limit': this.page.limit}
+      httpQuery = {...httpQuery, ...this.searchData}
       this.$http.get(this.httpUrl + this.buildHttp(httpQuery)).then(res => {
         this.items = res.data
         this.page.total = Math.ceil(res.count / this.page.limit)
@@ -192,6 +202,3 @@ export default {
 }
 </script>
 
-<style scoped>
-
-</style>

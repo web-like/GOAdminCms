@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
 
 import Roles from '@/components/admin/Roles'
+import User from '@/components/admin/Users'
 Vue.use(Router)
 
 export default new Router({
@@ -14,8 +15,13 @@ export default new Router({
     },
     {
       path: '/admin/roles',
-      name: 'Roles',
+      name: '分组管理',
       component: Roles
+    },
+    {
+      path: '/admin/users',
+      name: '用户管理',
+      component: User
     }
   ]
 })

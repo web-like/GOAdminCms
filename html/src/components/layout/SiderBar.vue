@@ -17,20 +17,22 @@
           <a href="index.html"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
         </li>
         <li>
-          <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Charts<span class="fa arrow"></span></a>
+          <a href="#"><i class="fa fa-user fa-fw"></i>&nbsp;用户管理<span class="fa arrow"></span></a>
           <ul class="nav nav-second-level">
             <li>
-              <a href="flot.html">Flot Charts</a>
+              <router-link to="/admin/roles">用户分组</router-link>
             </li>
             <li>
-              <a href="morris.html">Morris.js Charts</a>
+              <router-link to="/admin/users">用户管理</router-link>
             </li>
           </ul>
           <!-- /.nav-second-level -->
         </li>
+        <!-- -->
         <li>
           <a href="tables.html"><i class="fa fa-table fa-fw"></i> Tables</a>
         </li>
+        <!-- -->
         <li>
           <a href="forms.html"><i class="fa fa-edit fa-fw"></i> Forms</a>
         </li>
