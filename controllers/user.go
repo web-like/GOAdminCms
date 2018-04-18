@@ -4,6 +4,7 @@ import (
 	"github.com/astaxie/beego"
 	"CMS/models"
 	"encoding/json"
+	"fmt"
 )
 
 // UserController operations for User
@@ -71,11 +72,13 @@ func (c *UserController) GetOne() {
 // @router / [get]
 func (c *UserController) GetAll() {
 	users,count,err := models.GetAllUsers(nil,0,20)
+	fmt.Println(&users,count,err)
 	if err != nil {
 		c.Data["json"] = map[string]error{"err": err}
-		return
+	}else{
+		c.Data["json"] = map[string]interface{}{"data": users,"count":count}
 	}
-	c.Data["json"] = map[string]interface{}{"data": users,"count":count}
+	c.ServeJSON()
 }
 
 // Put ...

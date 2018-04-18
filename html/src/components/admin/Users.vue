@@ -88,10 +88,21 @@
             </div>
             <!-- -->
             <div class="form-group">
+              <label for="password" class="col-sm-3 control-label">密码：</label>
+              <div class="col-sm-8">
+                <input type="password" v-model="post_data.password" class="form-control" id="password" placeholder="默认密码：111111">
+              </div>
+              <div v-show="this.err_info.password !== undefined" class="col-sm-offset-3 col-sm-8 text-danger">
+                {{ this.err_info.password }}
+              </div>
+            </div>
+            <!-- -->
+            <div class="form-group">
               <label for="role" class="col-sm-3 control-label">分组：</label>
               <div class="col-sm-8">
                 <select id="role" class="form-control" v-model="post_data.role_id">
-                  <option v-for="(role, role_index) in roles" value="1" :key="role_index">{{ role.Title }}</option>
+                  <option value="0" selected>请选择</option>
+                  <option v-for="(role, role_index) in roles" v-bind:value="role.Id" :key="role_index">{{ role.Title }}</option>
                 </select>
               </div>
             </div>
@@ -140,7 +151,8 @@ export default {
         id: 0,
         username: '',
         email: '',
-        role_id: 1
+        role_id: 0,
+        password: ''
       },
       err_info: '', // 错误信息
       del_msg: '', // 删除提示信息
@@ -217,8 +229,11 @@ export default {
       } else {
         this.modalTitle = '添加'
         this.post_data = {
-          Id: 0,
-          Title: ''
+          id: 0,
+          username: '',
+          email: '',
+          role_id: 0,
+          password: ''
         }
       }
       this.err_info = ''

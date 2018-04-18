@@ -1,13 +1,12 @@
 package models
 
 import (
-	"errors"
-	"fmt"
-	"reflect"
 	"strings"
 
 	"github.com/astaxie/beego/orm"
-	"net/url"
+	"fmt"
+	"golang.org/x/crypto/bcrypt"
+	"github.com/astaxie/beego/logs"
 )
 
 type Users struct {
@@ -27,9 +26,13 @@ func init() {
 // AddUsers insert a new Users into database and returns
 // last inserted Id on success.
 func AddUsers(m *Users) (id int64, err error) {
-	o := orm.NewOrm()
-	id, err = o.Insert(m)
+
+	m.getPasswordString()
 	return
+
+	//o := orm.NewOrm()
+	//id, err = o.Insert(m)
+	//return
 }
 
 // GetUsersById retrieves Users by Id. Returns error if
@@ -45,7 +48,7 @@ func GetUsersById(id int64) (v *Users, err error) {
 
 // GetAllUsers retrieves all Users matches certain condition. Returns empty list if
 // no records exist
-func GetAllUsers(query map[string]string, limit int64,offset int64 ) ( UserData []interface{}, number int64, err error) {
+func GetAllUsers(query map[string]string, limit int64,offset int64 ) (UserData []Users, number int64, err error) {
 	o := orm.NewOrm()
 	qs := o.QueryTable(new(Users))
 
@@ -56,9 +59,15 @@ func GetAllUsers(query map[string]string, limit int64,offset int64 ) ( UserData 
 		qs = qs.Filter(k, v)
 	}
 
+	//var l []Users
 	number, _ = qs.Count()
 	_, err = qs.OrderBy("-id").Limit(limit,offset).All(&UserData)
-	return
+	//if err == nil {
+	//	for _, v := range l {
+	//		UserData = append(UserData,v)
+	//	}
+	//}
+	return UserData,number,err
 }
 
 // UpdateUsers updates Users by Id and returns error if
@@ -89,4 +98,21 @@ func DeleteUsers(id int64) (err error) {
 		}
 	}
 	return
+}
+
+func (this *Users) getPasswordString() {
+	hash, err := bcrypt.GenerateFromPassword([]byte(this.Password),bcrypt.DefaultCost)
+	if err != nil {
+		logs.Info("get user password fail",err)
+	}
+	this.Password = string(hash)
+}
+
+func (this *Users) checkPassword (inputPassword string) bool {
+	err := bcrypt.CompareHashAndPassword([]byte(this.Password),[]byte(inputPassword))
+
+	if err == nil {
+		return  true
+	}
+	return  false
 }
